@@ -22,15 +22,37 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findUserByNameAndPass(String name, String pass) {
-        User user = userMapper.findUserByNameAndPass(name, pass);
+    public User getUserInfo(String name) {
+        User user = userMapper.findUserByName(name);
         return user;
     }
 
     @Override
-    public User findUser(String name) {
+    public Boolean findUserByNameAndPass(String name, String pass) {
+        String user = userMapper.findUserByNameAndPass(name, pass);
+        if (user != null){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean findUser(String name) {
         // 调用mapper方法
         User user = userMapper.findUserByName(name);
-        return user;
+        if (user != null){
+            return true;
+        }
+        return false;
+    }
+
+    // 添加一个用户
+    @Override
+    public Boolean addUser(User user) {
+        int result = userMapper.addUser(user);
+        if (result != 0){
+            return true;
+        }
+        return false;
     }
 }

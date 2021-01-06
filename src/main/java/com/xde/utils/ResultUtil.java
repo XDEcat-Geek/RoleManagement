@@ -32,7 +32,14 @@ public class ResultUtil {
         ResponseMessage message = new ResponseMessage();
         message.setCode(code);
         message.setMsg(msg);
-        message.setData("");
+        message.setData("没有数据哦~");
+        return message;
+    }
+    public static ResponseMessage error(Integer code,String msg,Object object){
+        ResponseMessage message = new ResponseMessage();
+        message.setCode(code);
+        message.setMsg(msg);
+        message.setData(object);
         return message;
     }
 }

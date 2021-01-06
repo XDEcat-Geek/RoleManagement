@@ -5,19 +5,22 @@
 <mapper namespace="com.xde.mapper.UserMapper">
     <!--实体类(结果)映射-->
     <resultMap id="UserMap" type="User">
-        <result property="id" column="user_id"/>
         <result property="userName" column="user_name"/>
-        <result property="passWord" column="user_pass"/>
         <result property="email" column="user_email"/>
         <result property="sex" column="user_sex"/>
         <result property="age" column="user_age"/>
     </resultMap>
     <!--查询用户-->
     <select id="findUserByName" resultMap="UserMap" parameterType="String">
-        select * from user where user_name = #{name}
+        select user_name,user_pass,user_email,user_sex,user_age from user where user_name = #{name}
     </select>
     <!--用户名和密码查询-->
-    <select id="findUserByNameAndPass" resultMap="UserMap" parameterType="String">
-        select * from user where user_name = #{name} and user_pass = #{pass}
+    <select id="findUserByNameAndPass" resultType="String" parameterType="String">
+        select user_name from user where user_name = #{name} and user_pass = #{pass}
     </select>
+
+    <!--添加用户-->
+    <insert id="addUser" parameterType="User" >
+        insert into user values (#{id},#{userName},#{passWord},#{email},#{sex},#{age})
+    </insert>
 </mapper>

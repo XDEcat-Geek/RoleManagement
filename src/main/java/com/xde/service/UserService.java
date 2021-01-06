@@ -10,8 +10,13 @@ import com.xde.entity.User;
  * @since: JDK 1.8
  */
 public interface UserService {
-    // 查找用户
-    User findUser(String name);
+    // 查找用户是否存在
+    Boolean findUser(String name);
+    // 获得用户信息
+    User getUserInfo(String name);
     // 根据用户名和密码查找用户
-    User findUserByNameAndPass(String name,String pass);
+    Boolean findUserByNameAndPass(String name,String pass);
+
+    // 添加一个用户
+    Boolean addUser(User user);
 }
