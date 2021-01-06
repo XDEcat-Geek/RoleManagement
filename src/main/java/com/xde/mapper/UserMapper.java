@@ -15,11 +15,12 @@ import java.util.Map;
  */
 @Repository
 public interface UserMapper {
-    // 根据用户名查找一个用户
-    User findUserByName(String name);
-
-    // 根据用户名和密码查找用户
-    String findUserByNameAndPass(@Param("name") String name, @Param("pass") String pass);
+    // 根据账号查找一个用户信息
+    User findUserByAccount(String account);
+    // 注册信息查重
+    User checkRepeatInfo(String param);
+    // 检验用户账号和密码正确
+    String findUserByAccountAndPass(@Param("account") String account, @Param("pass") String pass);
 
     // 添加用户
     int addUser(User user);

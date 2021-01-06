@@ -11,11 +11,13 @@ import com.xde.entity.User;
  */
 public interface UserService {
     // 查找用户是否存在
-    Boolean findUser(String name);
+    Boolean findUser(String account);
     // 获得用户信息
-    User getUserInfo(String name);
-    // 根据用户名和密码查找用户
-    Boolean findUserByNameAndPass(String name,String pass);
+    User getUserInfo(String account);
+    // 注册信息查重
+    Boolean checkRepeatInfo(String param);
+    // 根据账号和密码查找用户
+    Boolean findUserByAccountAndPass(String account,String pass);
 
     // 添加一个用户
     Boolean addUser(User user);

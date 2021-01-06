@@ -19,7 +19,7 @@ public class ResultUtil {
         ResponseMessage message = new ResponseMessage();
         message.setCode(200);
         message.setMsg("请求成功~");
-        message.setData(object);
+        message.setContent(object);
         return message;
     }
 
@@ -32,14 +32,14 @@ public class ResultUtil {
         ResponseMessage message = new ResponseMessage();
         message.setCode(code);
         message.setMsg(msg);
-        message.setData("没有数据哦~");
+        message.setContent("没有数据哦~");
         return message;
     }
     public static ResponseMessage error(Integer code,String msg,Object object){
         ResponseMessage message = new ResponseMessage();
         message.setCode(code);
         message.setMsg(msg);
-        message.setData(object);
+        message.setContent(object);
         return message;
     }
 }

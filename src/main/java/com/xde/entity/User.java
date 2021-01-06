@@ -15,17 +15,18 @@ public class User {
     private String email;
     private String sex;
     private Integer age;
-
+    private String tel;
     public User() {
     }
 
-    public User(Integer id, String userName, String passWord, String email, String sex, Integer age) {
+    public User(Integer id, String userName, String passWord, String email, String sex, Integer age, String tel) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
         this.email = email;
         this.sex = sex;
         this.age = age;
+        this.tel = tel;
     }
 
     public Integer getId() {
@@ -46,6 +47,14 @@ public class User {
 
     public String getPassWord() {
         return passWord;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
     public void setPassWord(String passWord) {

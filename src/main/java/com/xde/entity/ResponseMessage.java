@@ -13,7 +13,7 @@ public class ResponseMessage {
     // 提示信息
     private String msg;
     // 返回数据
-    private Object data;
+    private Object content;
 
     public Integer getCode() {
         return code;
@@ -31,11 +31,11 @@ public class ResponseMessage {
         this.msg = msg;
     }
 
-    public Object getData() {
-        return data;
+    public Object getContent() {
+        return content;
     }
 
-    public void setData(Object data) {
-        this.data = data;
+    public void setContent(Object content) {
+        this.content = content;
     }
 }

@@ -21,25 +21,44 @@ public class UserServiceImpl implements UserService{
         this.userMapper = userMapper;
     }
 
+    // 获得用户信息
     @Override
-    public User getUserInfo(String name) {
-        User user = userMapper.findUserByName(name);
+    public User getUserInfo(String account) {
+        User user = userMapper.findUserByAccount(account);
         return user;
     }
 
+    // 检查用户账号和密码
     @Override
-    public Boolean findUserByNameAndPass(String name, String pass) {
-        String user = userMapper.findUserByNameAndPass(name, pass);
+    public Boolean findUserByAccountAndPass(String account, String pass) {
+        String user = userMapper.findUserByAccountAndPass(account, pass);
         if (user != null){
             return true;
+        }else {
+            return false;
         }
-        return false;
     }
 
+    // 注册信息查重
     @Override
-    public Boolean findUser(String name) {
+    public Boolean checkRepeatInfo(String param) {
+        User user = userMapper.checkRepeatInfo(param);
+        if (user != null){
+            return true;
+        }else {
+            return false;
+        }
+        // 判断用户昵称是否重复
+        // 判断用户邮箱是否重复
+        // 判断用户手机号是否重复
+    }
+
+    // 查找用户是否存在
+    @Override
+    public Boolean findUser(String account) {
         // 调用mapper方法
-        User user = userMapper.findUserByName(name);
+        User user = userMapper.findUserByAccount(account);
+        System.out.println("user="+user);
         if (user != null){
             return true;
         }

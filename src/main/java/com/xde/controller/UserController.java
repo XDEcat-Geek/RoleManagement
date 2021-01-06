@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.xde.entity.ResponseMessage;
 import com.xde.entity.User;
 import com.xde.service.UserService;
+import com.xde.service.UserServiceImpl;
 import com.xde.utils.JwtUtil;
 import com.xde.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,16 +60,16 @@ public class UserController {
     // 用户登录判断,账号和密码~
     @RequestMapping(method = RequestMethod.POST,path = "/login")
     public String login(@RequestBody JSONObject jsonObject){
-        String username = jsonObject.get("username").toString();
+        String account = jsonObject.get("account").toString();
         String password = jsonObject.get("password").toString();
         ResponseMessage response;
         JSONObject data = new JSONObject();
         // 调用service
-        Boolean check = userService.findUserByNameAndPass(username, password);
+        Boolean check = userService.findUserByAccountAndPass(account, password);
         if (check) {
             // 如果校验成功,则拿到用户信息和生成token
-            String token = JwtUtil.sign(username, password);
-            User userInfo = userService.getUserInfo(username);
+            String token = JwtUtil.sign(account, password);
+            User userInfo = userService.getUserInfo(account);
             data.put("token",token);
             data.put("userInfo",userInfo);
             response = ResultUtil.success(data);
@@ -78,6 +79,24 @@ public class UserController {
         return JSON.toJSONString(response);
     }
 
+    // 注册查重
+    @RequestMapping("/checkRepeat")
+    public String checkRepeatByRegister(String param){
+        Boolean isRepeat = userService.checkRepeatInfo(param);
+        JSONObject json;
+        ResponseMessage message;
+        if(isRepeat){
+            json = new JSONObject();
+            json.put("isRepeat",true);
+            message = ResultUtil.success(json);
+            return JSON.toJSONString(message);
+        }else {
+            json = new JSONObject();
+            json.put("isRepeat",false);
+            message = ResultUtil.success(json);
+            return JSON.toJSONString(message);
+        }
+    }
     //添加一个用户
     @RequestMapping("/register")
     public String addUser(@RequestBody JSONObject jsonObject){
@@ -89,7 +108,7 @@ public class UserController {
         if (!success){
             JSONObject data = new JSONObject();
             data.put("success",false);
-            response = ResultUtil.error(233,"插入数据失败~",data);
+            response = ResultUtil.error(233,"插入数据失败~检查一下参数格式是否正确~",data);
         }else {
             JSONObject data = new JSONObject();
             data.put("success",true);

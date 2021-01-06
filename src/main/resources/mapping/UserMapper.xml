@@ -8,19 +8,30 @@
         <result property="userName" column="user_name"/>
         <result property="email" column="user_email"/>
         <result property="sex" column="user_sex"/>
+        <result property="tel" column="user_tel"/>
         <result property="age" column="user_age"/>
     </resultMap>
-    <!--查询用户-->
-    <select id="findUserByName" resultMap="UserMap" parameterType="String">
-        select user_name,user_pass,user_email,user_sex,user_age from user where user_name = #{name}
+    <resultMap id="UserMap2" type="User">
+        <result property="email" column="user_email"/>
+        <result property="tel" column="user_tel"/>
+        <result property="userName" column="user_name"/>
+    </resultMap>
+    <!--查询用户信息-->
+    <select id="findUserByAccount" resultMap="UserMap" parameterType="String">
+        select user_name,user_pass,user_email,user_tel,user_sex,user_age from user where user_tel = #{account} or user_email = #{account}
     </select>
-    <!--用户名和密码查询-->
-    <select id="findUserByNameAndPass" resultType="String" parameterType="String">
-        select user_name from user where user_name = #{name} and user_pass = #{pass}
+    <!--账号和密码查询-->
+    <select id="findUserByAccountAndPass" resultType="String" parameterType="String">
+        select user_name from user where user_tel = #{account} or user_email = #{account} and user_pass = #{pass}
     </select>
-
+    <!--注册信息查重-->
+    <select id="checkRepeatInfo" resultMap="UserMap2" parameterType="String">
+        select user_name,user_email,user_tel from user
+        where
+        user_name = #{param} or user_email = #{param} or user_tel = #{param}
+    </select>
     <!--添加用户-->
     <insert id="addUser" parameterType="User" >
-        insert into user values (#{id},#{userName},#{passWord},#{email},#{sex},#{age})
+        insert into user values (#{id},#{userName},#{passWord},#{email},#{sex},#{age},#{tel})
     </insert>
 </mapper>
