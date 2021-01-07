@@ -81,7 +81,8 @@ public class UserController {
 
     // 注册查重
     @RequestMapping("/checkRepeat")
-    public String checkRepeatByRegister(String param){
+    public String checkRepeatByRegister(@RequestBody JSONObject jsonObject){
+        String param = jsonObject.get("param").toString();
         Boolean isRepeat = userService.checkRepeatInfo(param);
         JSONObject json;
         ResponseMessage message;
