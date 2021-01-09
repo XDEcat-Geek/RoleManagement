@@ -4,8 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.xde.entity.ResponseMessage;
 import com.xde.entity.User;
-import com.xde.service.UserService;
-import com.xde.service.UserServiceImpl;
+import com.xde.service.user.UserService;
 import com.xde.utils.JwtUtil;
 import com.xde.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,10 +61,11 @@ public class UserController {
     public String login(@RequestBody JSONObject jsonObject){
         String account = jsonObject.get("account").toString();
         String password = jsonObject.get("password").toString();
-        ResponseMessage response;
+        ResponseMessage response = null;
         JSONObject data = new JSONObject();
         // 调用service
         Boolean check = userService.findUserByAccountAndPass(account, password);
+        System.out.println("判断："+check);
         if (check) {
             // 如果校验成功,则拿到用户信息和生成token
             String token = JwtUtil.sign(account, password);

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xde.mapper.RoleMapper">
+    <!--实体类映射-->
+    <resultMap id="RoleMap" type="Role">
+        <id property="id" column="role_id"></id>
+        <result property="name" column="role_name"></result>
+        <result property="position" column="role_position"></result>
+        <result property="brief" column="role_brief"></result>
+        <result property="portrait" column="role_portrait" jdbcType="BLOB"></result>
+        <result property="picture" column="role_picture"></result>
+        <result property="peculiarity" column="role_peculiarity"></result>
+        <result property="survival" column="role_survival"></result>
+        <result property="output" column="role_output"></result>
+        <result property="agility" column="role_agility"></result>
+        <result property="difficulty" column="role_difficulty"></result>
+    </resultMap>
+    <!--查询所有的式神信息-->
+    <select id="getAllRoleInfo" resultMap="RoleMap">
+        select * from role;
+    </select>
+    <!--按式神名字模糊查询单个信息-->
+    <select id="getRoleInfoByName" resultMap="RoleMap" parameterType="String">
+        select * from role where role_name like "%"#{name}"%"
+    </select>
+
+    <select id="getRoleInfoByName2" resultMap="RoleMap" parameterType="String">
+        select * from role where role_name = #{name}
+    </select>
+    <!--按式神的id查询单个信息-->
+    <select id="getRoleInfoById" resultMap="RoleMap" parameterType="Integer">
+        select * from role where role_id = #{id}
+    </select>
+
+    <!--插入式神信息-->
+    <insert id="addRoleInfo" parameterType="Role">
+        insert into role values (#{id},#{name},#{position},#{brief},null,null,#{peculiarity},#{survival},#{output},#{agility},#{gain},#{difficulty})
+    </insert>
+
+    <!--修改一个式神信息-->
+    <update id="changeRoleInfo" parameterType="Role">
+        <if test="name!=null">
+            update role set
+            role_position = #{position},role_brief=#{brief},role_portrait=#{portrait},role_picture=#{picture},
+            role_peculiarity=#{peculiarity},role_survival=#{survival},role_output=#{output},role_agility=#{agility},role_gain=#{gain},role_difficulty=#{difficulty}
+            where
+            role_name = #{name}
+        </if>
+    </update>
+
+    <!--删除一个式神信息-->
+    <delete id="deleteRoleInfo" parameterType="String">
+        delete from role where role_name = #{name}
+    </delete>
+</mapper>

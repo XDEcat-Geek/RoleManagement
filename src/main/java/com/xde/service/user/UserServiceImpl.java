@@ -1,4 +1,4 @@
-package com.xde.service;
+package com.xde.service.user;
 
 import com.xde.entity.User;
 import com.xde.mapper.UserMapper;

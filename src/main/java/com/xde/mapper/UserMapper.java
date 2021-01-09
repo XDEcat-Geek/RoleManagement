@@ -4,8 +4,6 @@ import com.xde.entity.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
-
 /**
  * date: 2021/1/5 16:09
  * 说明: 定义了一个dao层接口，对User表进行增删查改等操作
