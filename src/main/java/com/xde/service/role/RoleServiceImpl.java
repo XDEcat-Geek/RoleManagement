@@ -29,6 +29,13 @@ public class RoleServiceImpl implements RoleService{
         List<Role> roles = roleMapper.getRoleInfoByName(name);
         return roles;
     }
+    /*按式神的type进行查询*/
+
+    @Override
+    public List<Role> getRolesInfoByType(String type) {
+        List<Role> roles = roleMapper.getRoleInfoByType(type);
+        return roles;
+    }
 
     // 按id查询式神
     @Override

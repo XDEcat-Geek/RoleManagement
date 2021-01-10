@@ -44,19 +44,35 @@ public class RoleController {
             return JSONObject.toJSONString(message);
         }
     }
-    // 按式神名字查询
-    @RequestMapping("/getInfo/{name}")
+    // 按式神名字模糊查询
+    @RequestMapping("/getInfoByName/{name}")
     public String getRoleInfoByName(@PathVariable("name") String name){
         List<Role> roles = roleService.getRoleInfoByName(name);
         return JSON.toJSONString(roles);
     }
     // 按id查询
-    @RequestMapping("/getInfo2/{id}")
+    @RequestMapping("/getInfoById/{id}")
     public String getRoleInfoById(@PathVariable("id") Integer id){
         Role info = roleService.getRoleInfoById(id);
         return JSON.toJSONString(info);
     }
-
+    // 按类型进行查询
+    @RequestMapping("/getInfoByType/{type}")
+    public String getRolesInfoByType(@PathVariable("type") String type){
+        List<Role> roles = roleService.getRolesInfoByType(type);
+        ResponseMessage message;
+        JSONObject data = new JSONObject();
+        if (roles.size() != 0){
+            // 查询成功
+            data.put("roles",roles);
+            message = ResultUtil.success(data);
+            return JSON.toJSONString(message);
+        }else {
+            //查询失败
+            message = ResultUtil.error(233,"没有查询到数据~");
+            return JSON.toJSONString(message);
+        }
+    }
     // 添加式神信息
     @RequestMapping(method = RequestMethod.POST,path = "/addRole")
     public String insertRoleInfo(@RequestBody JSONObject jsonObject){

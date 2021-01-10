@@ -18,6 +18,8 @@ public interface RoleService {
     Boolean isExistByRoleName(String name);
     // 按式神id查询单个信息
     Role getRoleInfoById(int id);
+    // 按式神的type进行查询
+    List<Role> getRolesInfoByType(String type);
     // 查询所有的式神信息
     List<Role> getAllRoleInfo();
 

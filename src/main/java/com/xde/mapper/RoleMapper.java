@@ -22,6 +22,8 @@ public interface RoleMapper {
     List<Role> getRoleInfoByName(String name);
     // 按式神的名字查询
     Role getRoleInfoByName2(String name);
+    // 按式神的位置查询
+    List<Role> getRoleInfoByType(String type);
     // 增加一个式神信息
     int addRoleInfo(Role role);
 
