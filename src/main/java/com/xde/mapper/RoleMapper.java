@@ -3,6 +3,7 @@ package com.xde.mapper;
 import com.xde.entity.Role;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,6 +25,10 @@ public interface RoleMapper {
     Role getRoleInfoByName2(String name);
     // 按式神的位置查询
     List<Role> getRoleInfoByType(String type);
+    // 按id查询式神的头像
+    Role getRolePortrait(Integer id);
+    // 按id查询式神的图片
+    String getRolePicture(Integer id);
     // 增加一个式神信息
     int addRoleInfo(Role role);
 
@@ -32,4 +37,9 @@ public interface RoleMapper {
 
     // 修改一个式神信息
     int changeRoleInfo(Role role);
+
+    // 按Id给式神设置头像
+    int setRolePortrait(HashMap<String,Object> map);
+    // 按Id给式神设置图片
+    int setRolePicture(HashMap<String,Object> map);
 }

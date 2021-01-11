@@ -9,6 +9,7 @@
     </settings>
     <!--设置实体类的别名-->
     <typeAliases>
+        <typeAlias type="java.util.HashMap" alias="HasMap"/>
         <typeAlias type="com.xde.entity.User" alias="User"/>
         <typeAlias type="com.xde.entity.Role" alias="Role"/>
     </typeAliases>

@@ -5,6 +5,7 @@ import com.xde.mapper.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -93,6 +94,56 @@ public class RoleServiceImpl implements RoleService{
             return true;
         }else {
             return false;
+        }
+    }
+
+    // 设置式神图片
+    @Override
+    public Boolean setRolePicture(Integer id, String url) {
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("id",id);
+        map.put("url",url);
+        int i = roleMapper.setRolePicture(map);
+        if (i != 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    // 设置式神头像
+    @Override
+    public Boolean setRolePortrait(Integer id, byte[] img) {
+        HashMap map = new HashMap();
+        map.put("id",id);
+        map.put("portrait",img);
+        int code = roleMapper.setRolePortrait(map);
+        if (code != 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    // 获得式神头像
+    @Override
+    public byte[] getRolePortrait(Integer id) {
+        Role role = roleMapper.getRolePortrait(id);
+        if (role.getPortrait().length != 0){
+            return role.getPortrait();
+        }else {
+            return null;
+        }
+    }
+
+    // 获得式神图片
+    @Override
+    public String getRolePicture(Integer id) {
+        String url = roleMapper.getRolePicture(id);
+        if (url != null){
+            return url;
+        }else {
+            return null;
         }
     }
 }

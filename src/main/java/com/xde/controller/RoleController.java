@@ -5,10 +5,18 @@ import com.alibaba.fastjson.JSONObject;
 import com.xde.entity.ResponseMessage;
 import com.xde.entity.Role;
 import com.xde.service.role.RoleService;
+import com.xde.utils.FileUtil;
 import com.xde.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -128,6 +136,107 @@ public class RoleController {
             data.put("isDelete",false);
             message = ResultUtil.error(233,"删除失败,可能没有找到该式神",data);
             return JSON.toJSONString(message);
+        }
+    }
+    // 设置式神头像
+    @RequestMapping(method = RequestMethod.POST,path = "/setRolePortrait")
+    public String addImg(@RequestParam("file")MultipartFile file,@RequestParam("roleID") Integer id){
+        byte[] data;
+        JSONObject json = new JSONObject();
+        ResponseMessage message;
+        if (file != null){
+            try {
+                // 得到二进制数据
+                data = file.getBytes();
+                System.out.println(data.length);
+                System.out.println("式神id"+id);
+                // 保存到数据库中
+                Boolean success = roleService.setRolePortrait(id, data);
+                if (success){
+                    json.put("isUpload",true);
+                    message = ResultUtil.success(json);
+                    return JSON.toJSONString(message);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
+            message = ResultUtil.error(233,"上传失败！");
+            return JSON.toJSONString(message);
+        }
+        return "";
+    }
+    // 设置式神图片
+    @RequestMapping(method = RequestMethod.POST,path = "/setRolePicture")
+    public String setRolePicture(@RequestParam("file")MultipartFile file,@RequestParam("roleID")Integer id){
+        JSONObject data = new JSONObject();
+        ResponseMessage message;
+        // 1.获取上传图片的文件名以及后缀名
+        String fileName = id+"_"+file.getOriginalFilename();
+        // 2.获取jar包所在的目录
+        ApplicationHome h = new ApplicationHome(getClass());
+        File jarF = h.getSource();
+        // 3.在jar包所在的目录下生成一个upload文件夹用来存储上传的图片
+        String dirPath = jarF.getParentFile().toString()+"/upload/";
+        System.out.println("上传图片的所在目录"+dirPath);
+        // 4.创建文件夹
+        File filePath = new File(dirPath);
+        if (!filePath.exists()){
+            filePath.mkdirs();
+        }
+        try {
+            // 5.将图片写入该文件
+            String path = dirPath+fileName;
+            // 6.写入图片之前，清除相关的图片
+            FileUtil.deleteFiles(dirPath,id.toString());
+            // 7.重新写入文件
+            file.transferTo(new File(path));
+            Boolean success = roleService.setRolePicture(id, path);
+            if (success){
+                // 6.上传成功返回状态信息
+                data.put("isUpload",true);
+                message = ResultUtil.success(data);
+                return JSON.toJSONString(message);
+            }else {
+                message = ResultUtil.error(233,"上传失败~");
+                return JSON.toJSONString(message);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            message = ResultUtil.error(233,"上传失败~");
+            return JSON.toJSONString(message);
+        }
+    }
+    // 获得式神头像
+    @RequestMapping(method = RequestMethod.GET,path = "/getRolePortrait/{id}")
+    public void getRolePortrait(@PathVariable Integer id, HttpServletResponse response){
+        byte[] bytes = roleService.getRolePortrait(id);
+        if (bytes.length != 0){
+            // 设置返回类型
+            response.setContentType("image/jpeg");
+            response.setCharacterEncoding("UTF-8");
+            try {
+                // 返回数据
+                ServletOutputStream outputStream = response.getOutputStream();
+                outputStream.write(bytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    // 获得式神图片
+    @RequestMapping(method = RequestMethod.GET,path = "/getRolePicture/{id}")
+    public void getRolePicture(@PathVariable("id")Integer id,HttpServletResponse response) throws IOException {
+        String url = roleService.getRolePicture(id);
+        if (url!=null){
+            byte[] bytes = FileUtil.getFileBytes(url);
+            // 设置返回类型
+            response.setContentType("image/jpeg");
+            response.setCharacterEncoding("UTF-8");
+            ServletOutputStream stream = response.getOutputStream();
+            stream.write(bytes);
+        }else {
+            response.getWriter().write("没有图片信息~");
         }
     }
 }

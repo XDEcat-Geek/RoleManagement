@@ -31,4 +31,12 @@ public interface RoleService {
 
     //修改式神
     Boolean changeRoleInfo(Role role);
+    // 设置式神头像
+    Boolean setRolePortrait(Integer id,byte[] img);
+    // 设置式神图片
+    Boolean setRolePicture(Integer id,String url);
+    // 获得式神头像
+    byte[] getRolePortrait(Integer id);
+    // 获得式神图片
+    String getRolePicture(Integer id);
 }
