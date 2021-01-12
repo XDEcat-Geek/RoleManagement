@@ -132,7 +132,7 @@ public class RoleServiceImpl implements RoleService{
         if (role.getPortrait().length != 0){
             return role.getPortrait();
         }else {
-            return null;
+            return new byte[0];
         }
     }
 

@@ -81,31 +81,41 @@ public class RoleController {
             return JSON.toJSONString(message);
         }
     }
+    // 为式神名字进行查重
+    @RequestMapping("/checkName/{name}")
+    public String checkNameExist(@PathVariable("name")String name){
+        ResponseMessage message;
+        JSONObject data = new JSONObject();
+        // 先进行名字查重判断
+        Boolean isExist = roleService.isExistByRoleName(name);
+        if (isExist){
+            data.put("isExist",true);
+            message = ResultUtil.success(data);
+            return JSON.toJSONString(message);
+        }else {
+            data.put("isExist",false);
+            message = ResultUtil.success(data);
+            return JSON.toJSONString(message);
+        }
+    }
     // 添加式神信息
     @RequestMapping(method = RequestMethod.POST,path = "/addRole")
     public String insertRoleInfo(@RequestBody JSONObject jsonObject){
         Role role = jsonObject.toJavaObject(Role.class);
         JSONObject data = new JSONObject();
         ResponseMessage message; // 返回数据
-        // 先进行名字查重判断
-        Boolean isExist = roleService.isExistByRoleName(jsonObject.get("name").toString());
-        if (isExist){
-            message =  ResultUtil.error(233,"已有该式神的记录，请重新填写信息");
+        Boolean flag = roleService.addRoleInfo(role);
+        if (flag){
+            data.put("isInsert",true);
+            message =  ResultUtil.success(data);
             return JSON.toJSONString(message);
         }else {
-            Boolean flag = roleService.addRoleInfo(role);
-            if (flag){
-                data.put("isInsert",true);
-                message =  ResultUtil.success(data);
-                return JSON.toJSONString(message);
-            }else {
-                message =  ResultUtil.error(233,"插入失败，请检查参数哦~");
-                return JSON.toJSONString(message);
-            }
+            message =  ResultUtil.error(233,"插入失败，请检查参数哦~");
+            return JSON.toJSONString(message);
         }
     }
     //修改式神信息
-    @RequestMapping("/changeRole")
+    @RequestMapping(method = RequestMethod.POST,path = "/changeRole")
     public String changeRoleInfo(@RequestBody JSONObject jsonObject){
         Role role = jsonObject.toJavaObject(Role.class);
         Boolean flag = roleService.changeRoleInfo(role);

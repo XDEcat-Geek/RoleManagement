@@ -1,5 +1,7 @@
 package com.xde.entity;
 
+import java.util.Arrays;
+
 /**
  * date: 2021/1/5 15:54
  * 说明: 用户的实体类
@@ -16,10 +18,11 @@ public class User {
     private String sex;
     private Integer age;
     private String tel;
+    private byte[] head; // 头像
     public User() {
     }
 
-    public User(Integer id, String userName, String passWord, String email, String sex, Integer age, String tel) {
+    public User(Integer id, String userName, String passWord, String email, String sex, Integer age, String tel, byte[] head) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
@@ -27,6 +30,7 @@ public class User {
         this.sex = sex;
         this.age = age;
         this.tel = tel;
+        this.head = head;
     }
 
     public Integer getId() {
@@ -85,6 +89,14 @@ public class User {
         this.age = age;
     }
 
+    public byte[] getHead() {
+        return head;
+    }
+
+    public void setHead(byte[] head) {
+        this.head = head;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -94,6 +106,8 @@ public class User {
                 ", email='" + email + '\'' +
                 ", sex='" + sex + '\'' +
                 ", age=" + age +
+                ", tel='" + tel + '\'' +
+                ", head=" + Arrays.toString(head) +
                 '}';
     }
 }

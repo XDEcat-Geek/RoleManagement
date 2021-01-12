@@ -15,6 +15,7 @@
         <result property="survival" column="role_survival"></result>
         <result property="output" column="role_output"></result>
         <result property="agility" column="role_agility"></result>
+        <result property="gain" column="role_gain"></result>
         <result property="difficulty" column="role_difficulty"></result>
     </resultMap>
     <!--查询所有的式神信息-->

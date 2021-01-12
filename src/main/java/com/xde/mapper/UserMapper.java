@@ -22,4 +22,8 @@ public interface UserMapper {
 
     // 添加用户
     int addUser(User user);
+
+    // 用户信息修改
+    // 用户头像修改
+    // 用户密码修改
 }
